@@ -305,14 +305,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
----
-
-## ✅ **Steps to Fix:**
-
-1. **Delete your current `bot.py`** on GitHub
-2. **Create new `bot.py`** with the complete code above
-3. **Update `requirements.txt` to:**
-```
-   python-telegram-bot==20.8
