@@ -421,12 +421,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
 
----
-
-## 📁 **You Also Need:**
-
-**requirements.txt:**
-```
-python-telegram-bot==20.7
