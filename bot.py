@@ -286,6 +286,7 @@ def main():
         print("ERROR: TELEGRAM_BOT_TOKEN environment variable not set!")
         return
     
+    print("Starting bot...")
     application = Application.builder().token(TOKEN).build()
     
     application.add_handler(CommandHandler("start", start_command))
@@ -301,7 +302,7 @@ def main():
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
     print("Bot started successfully!")
-    application.run_polling(drop_pending_updates=True)
+    application.run_polling()
 
 if __name__ == "__main__":
     main()
