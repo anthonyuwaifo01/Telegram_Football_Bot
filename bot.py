@@ -267,7 +267,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             display_name = f"@{username}" if username else user_name
             await update.message.reply_text(f"✅ {display_name} is IN!\nCurrent count: {len(data['session']['participants'])} players")
         else:
-            await update.message.reply_text(f"ℹ️ You're already in!")
+            await update.message.reply_text("ℹ️ You're already in!")
     elif message_text == "out":
         if not data["session"]["active"]:
             await update.message.reply_text("❌ No active selection")
@@ -288,7 +288,6 @@ def main():
     
     application = Application.builder().token(TOKEN).build()
     
-    # Register commands
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("addme", addme_command))
@@ -302,12 +301,18 @@ def main():
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
     print("Bot started successfully!")
-    
-    # Start polling with proper configuration
-    application.run_polling(
-        drop_pending_updates=True,
-        allowed_updates=Update.ALL_TYPES
-    )
+    application.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
     main()
+```
+
+---
+
+## ✅ **Steps to Fix:**
+
+1. **Delete your current `bot.py`** on GitHub
+2. **Create new `bot.py`** with the complete code above
+3. **Update `requirements.txt` to:**
+```
+   python-telegram-bot==20.8
