@@ -5,6 +5,11 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from telegram.constants import ParseMode
 
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+
+
 DATA_FILE = "players.json"
 PLAYERS_PER_TEAM = 6
 
@@ -285,6 +290,9 @@ def main():
     if not TOKEN:
         print("ERROR: TELEGRAM_BOT_TOKEN environment variable not set!")
         return
+
+    print("Starting health check server...")
+    threading.Thread(target=run_http_server, daemon=True).start()
     
     print("Starting bot...")
     application = Application.builder().token(TOKEN).build()
@@ -306,3 +314,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def run_http_server():
+    port = int(os.environ.get("PORT", 10000))
+
+    class HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"OK")
+
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    server.serve_forever()
+
